@@ -43,7 +43,10 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.cap.entrypoints: websecure
+      # Disable the admin interface for the root path for security reasons.
+      # You can enable it by commenting this line and uncomment the next one.
       traefik.http.routers.cap.rule: "Host(`${HOSTNAME}`) && !Path(`/`)"
+      # traefik.http.routers.cap.rule: "Host(`${HOSTNAME}`)"
       traefik.http.routers.cap.service: cap
       traefik.http.routers.cap.tls.certresolver: myresolver
       traefik.http.services.cap.loadbalancer.server.port: 3000

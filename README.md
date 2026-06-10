@@ -48,6 +48,9 @@ The labels are already configured in the compose file for Cap.
 See [Solution Libre's Traefik setup](https://usine.solution-libre.fr/docker/traefik)
 for a complete Traefik configuration compatible with this project.
 
+> **Note:** The admin interface (root path `/`) is disabled by default for security reasons.
+> To enable it, edit the `traefik.http.routers.cap.rule` label in `compose.yaml` as described in the inline comments.
+
 ## Reference
 
 See [REFERENCE.md](./REFERENCE.md).
