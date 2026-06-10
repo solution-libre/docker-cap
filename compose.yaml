@@ -24,7 +24,7 @@ services:
     image: busybox:latest
     command: ["chown", "1000:1000", "/usr/src/app/data"]
     volumes:
-      - cap-data:/usr/src/app/data
+      - data:/usr/src/app/data
 
   cap:
     image: tiago2/cap:${CAP_VERSION}
