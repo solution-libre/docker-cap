@@ -1,0 +1,78 @@
+# Copyright (C) 2026 Solution Libre <contact@solution-libre.fr>
+#
+# This file is part of Cap with Docker Compose.
+#
+# Cap with Docker Compose is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# Cap with Docker Compose is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Cap with Docker Compose.  If not, see <https://www.gnu.org/licenses/>.
+
+networks:
+  proxy:
+    external: true
+
+services:
+  clap-init:
+    image: busybox:latest
+    command: ["chown", "1000:1000", "/usr/src/app/data"]
+    volumes:
+      - cap-data:/usr/src/app/data
+
+  cap:
+    image: tiago2/cap:${CAP_VERSION}
+    environment:
+      ADMIN_KEY: ${CAP_ADMIN_KEY}
+      CORS_ORIGIN: ${CAP_CORS_ORIGIN:-*}
+      ENABLE_ASSETS_SERVER: ${CAP_ENABLE_ASSETS_SERVER:-false}
+      REDIS_URL: redis://default:${REDIS_PASSWORD}@redis:6379
+    depends_on:
+      clap-init:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    # Traefik labels are suggested as an example for people using Traefik,
+    # remove them if you are using another reverse proxy.
+    labels:
+      traefik.enable: true
+      traefik.http.routers.cap.entrypoints: websecure
+      traefik.http.routers.cap.rule: "Host(`${HOSTNAME}`) && !Path(`/`)"
+      traefik.http.routers.cap.service: cap
+      traefik.http.routers.cap.tls.certresolver: myresolver
+      traefik.http.services.cap.loadbalancer.server.port: 3000
+    networks:
+      default:
+      proxy:
+    # If you don't want to use a reverse proxy (not suitable for production!)
+    #ports:
+    #  - "3000:3000"
+    restart: unless-stopped
+    volumes:
+      - data:/usr/src/app/data
+
+  redis:
+    command: redis-server --maxmemory ${REDIS_MAX_MEMORY_IN_MB:-256}mb --maxmemory-policy allkeys-lru --requirepass ${REDIS_PASSWORD} --save 60 1
+    deploy:
+      resources:
+        limits:
+          memory: ${REDIS_MAX_MEMORY_IN_MB:-256}M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    image: redis:${REDIS_VERSION}-alpine
+    restart: unless-stopped
+    volumes:
+      - redis:/data
+
+volumes:
+  data:
+  redis:

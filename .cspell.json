@@ -1,0 +1,24 @@
+{
+    "words": [
+        "accesskey",
+        "allkeys",
+        "cap",
+        "certresolver",
+        "github",
+        "healthcheck",
+        "loadbalancer",
+        "matomo",
+        "mattermost",
+        "maxmemory",
+        "myresolver",
+        "nginx",
+        "ofelia",
+        "regionendpoint",
+        "requirepass",
+        "secretkey",
+        "starttls",
+        "tiago",
+        "traefik",
+        "websecure"
+    ]
+}

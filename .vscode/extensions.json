@@ -1,0 +1,13 @@
+{
+	"recommendations": [
+		"mikestead.dotenv",
+		"cap.cap-workflow",
+		"ymotongpoo.licenser",
+		"davidanson.vscode-markdownlint",
+		"ms-azuretools.vscode-docker",
+		"redhat.vscode-yaml"
+	],
+	"unwantedRecommendations": [
+		
+	]
+}
