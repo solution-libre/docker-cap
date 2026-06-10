@@ -5,6 +5,7 @@
         "cap",
         "certresolver",
         "github",
+        "gitlab",
         "healthcheck",
         "loadbalancer",
         "matomo",
