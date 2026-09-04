@@ -1,5 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "customManagers": [
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^.env\\.dist$/"],
+      "matchStrings": ["CAP_VERSION='(?<currentValue>[^']+)'"],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "tiago2/cap"
+    },
+    {
+      "customType": "regex",
+      "managerFilePatterns": ["/^.env\\.dist$/"],
+      "matchStrings": ["REDIS_VERSION='(?<currentValue>[^']+)'"],
+      "datasourceTemplate": "docker",
+      "depNameTemplate": "redis"
+    }
+  ],
   "extends": [
     "config:recommended"
   ]
