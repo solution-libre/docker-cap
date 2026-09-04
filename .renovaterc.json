@@ -3,14 +3,14 @@
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^.env\\.dist$/"],
+      "managerFilePatterns": ["/^\\.env\\.dist$/"],
       "matchStrings": ["CAP_VERSION='(?<currentValue>[^']+)'"],
       "datasourceTemplate": "docker",
       "depNameTemplate": "tiago2/cap"
     },
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^.env\\.dist$/"],
+      "managerFilePatterns": ["/^\\.env\\.dist$/"],
       "matchStrings": ["REDIS_VERSION='(?<currentValue>[^']+)'"],
       "datasourceTemplate": "docker",
       "depNameTemplate": "redis"
